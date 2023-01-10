@@ -4,6 +4,7 @@
 
 #include "nodes.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 //creating the first node of the new graph
 void build_graph_cmd(pnode *head){
@@ -73,14 +74,20 @@ void printGraph_cmd(pnode head){
         printf("it's edges: ")  ;
         pedge current_edge = head->edges; 
          while (current_edge != NULL ){
-            printf("edge to: %d " ,current_edge->endpoint );
+            printf("edge to: %d " ,(current_edge->endpoint)->node_num );
             printf("\n in weight: %d , ", current_edge->weight);
          }
 
         printf("next node: \n");
         head = head->next;
     }
+    printf("end of graph");
 }
+
+void deleteGraph_cmd(pnode* head){
+    
+}
+
 
 void freeNode(pnode toFree){
     freeEdges(toFree->edges);
