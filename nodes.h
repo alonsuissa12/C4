@@ -4,7 +4,7 @@
 
 #ifndef HW4_NODES_H
 #define HW4_NODES_H
-
+#include "graph.h"
 #endif //HW4_NODES_H
-freeEdges(pedge edge);
-void freeNode(pnode node);
+void freeEdges(pedge );
+void freeNode(pnode );

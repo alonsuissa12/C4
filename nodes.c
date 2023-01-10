@@ -3,7 +3,6 @@
 //
 
 #include "nodes.h"
-#include "graph.h"
 #include <stdlib.h>
 
 //creating the first node of the new graph
@@ -39,14 +38,14 @@ void insert_node_cmd(pnode *head){
         nodeNum ++;
     }
     current->next = p_new_node;
-    p_new_node->next=nodeNum;
+    p_new_node->node_num = nodeNum;
 }
 
 void delete_node_cmd(pnode *head, pnode to_delete){
     int nodeNum = to_delete -> node_num;
     pnode current = *head;
     pnode prev;
-    while ((*current) != NULL ){
+    while ( current != NULL ){
         if((current->next) == to_delete){
             prev = current;
         }
@@ -71,7 +70,7 @@ void freeNode(pnode toFree){
     free(toFree);
 }
 
-freeEdges(pedge toFree){
+void freeEdges(pedge toFree){
     if(toFree->next == NULL){
         free(toFree);
         return;
