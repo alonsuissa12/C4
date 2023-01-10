@@ -65,6 +65,23 @@ void delete_node_cmd(pnode *head, pnode to_delete){
     freeNode(to_delete);
 }
 
+void printGraph_cmd(pnode head){
+   printf ("the graph start with:\n");
+    while (head != NULL){
+        printf("node: %d\n" , head->node_num);
+        
+        printf("it's edges: ")  ;
+        pedge current_edge = head->edges; 
+         while (current_edge != NULL ){
+            printf("edge to: %d " ,current_edge->endpoint );
+            printf("\n in weight: %d , ", current_edge->weight);
+         }
+
+        printf("next node: \n");
+        head = head->next;
+    }
+}
+
 void freeNode(pnode toFree){
     freeEdges(toFree->edges);
     free(toFree);
