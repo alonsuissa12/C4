@@ -9,7 +9,7 @@
 //creating the first node of the new graph
 void build_graph_cmd(pnode *head){
     pnode p = (node*)(malloc(sizeof (node)));
-    if(p_new_node == NULL) {
+    if(p == NULL) {
         head = NULL;
         return;
     }
@@ -39,18 +39,18 @@ void insert_node_cmd(pnode *head){
         nodeNum ++;
     }
     current->next = p_new_node;
-    p_new_node->next=nodeNum
+    p_new_node->next=nodeNum;
 }
 
 void delete_node_cmd(pnode *head, pnode to_delete){
-    nodeNum = to_delete -> node_num;
+    int nodeNum = to_delete -> node_num;
     pnode current = *head;
     pnode prev;
-    while (*current != NULL ){
-        if((current->next)->node_num != nodeNum){
+    while ((*current) != NULL ){
+        if((current->next) == to_delete){
             prev = current;
-
         }
+
         pedge current_edge = current->edges;
         while (current_edge != NULL && current_edge -> endpoint -> node_num != nodeNum){
             current_edge = current_edge->next;
@@ -73,7 +73,7 @@ void freeNode(pnode toFree){
 
 freeEdges(pedge toFree){
     if(toFree->next == NULL){
-        free(teFree);
+        free(toFree);
         return;
     }
     return freeEdges(toFree->next);
