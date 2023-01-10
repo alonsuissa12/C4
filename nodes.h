@@ -6,3 +6,5 @@
 #define HW4_NODES_H
 
 #endif //HW4_NODES_H
+freeEdges(pedge edge);
+void freeNode(pnode node);
