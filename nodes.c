@@ -98,11 +98,13 @@ void deleteGraph_cmd(pnode* head){
     
     pnode current = *head;
     if ((current) -> next == NULL){
-        delete_node_cmd(head , current);
+        freeNode(current);
         return;
     }
         pnode *to_del= &(current->next);
-        return deleteGraph_cmd( to_del);
+        deleteGraph_cmd( to_del);
+        freeNode(current);
+        return;
 }
 
 
@@ -116,5 +118,7 @@ void freeEdges(pedge toFree){
         free(toFree);
         return;
     }
-    return freeEdges(toFree->next);
+    freeEdges(toFree->next);
+    free(toFree);
+    return;
 }

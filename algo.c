@@ -50,5 +50,5 @@ void dijkstra(pnode start,pnode head){
         }
     }
 
-
 }
+
