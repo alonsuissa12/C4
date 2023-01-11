@@ -83,9 +83,20 @@ void printGraph_cmd(pnode head){
     }
     printf("end of graph");
 }
-
+/*
+*recursive function - 
+*the idea is to go until the end of the list of graph nodes
+*then , delete the nodes from end to start.
+* I added the pointer "to_del" because "deleteGraph_cmd" getting a pointer to pointer 
+*/
 void deleteGraph_cmd(pnode* head){
     
+    pnode current = *head;
+    if ((current) -> next == NULL){
+        delete_node_cmd(head , current);
+    }
+        pnode *to_del = current->next;
+        return deleteGraph_cmd( to_del);
 }
 
 
