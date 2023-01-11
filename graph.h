@@ -14,6 +14,10 @@ typedef struct GRAPH_NODE_ {
     int node_num;
     pedge edges;
     struct GRAPH_NODE_ *next;
+    // for dijkstra:
+    int shortest_path;
+    struct GRAPH_NODE_ *prev;
+    int was_visited;
 } node, *pnode;
 
 void build_graph_cmd(pnode *head);

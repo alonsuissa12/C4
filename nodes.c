@@ -3,8 +3,6 @@
 //
 
 #include "nodes.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 //creating the first node of the new graph
 void build_graph_cmd(pnode *head){
@@ -16,8 +14,11 @@ void build_graph_cmd(pnode *head){
     head = &p;
     node new_node;
     new_node.node_num = 0;
-    new_node.next = 0;
-    new_node.edges = 0;
+    new_node.next = NULL;
+    new_node.edges = NULL;
+    new_node.shortest_path = INT_MAX;
+    new_node.prev = NULL;
+    new_node.was_visited = 0;
     *(*head) = new_node;
 }
 
@@ -33,6 +34,9 @@ void insert_node_cmd(pnode *head){
     node new_node;
     new_node.next = 0;
     new_node.edges=0;
+    new_node.shortest_path = 0;
+    new_node.prev = NULL;
+    new_node.was_visited = 0;
     *p_new_node = new_node;
     while (current->next != NULL){
         current = current->next;
@@ -76,6 +80,7 @@ void printGraph_cmd(pnode head){
          while (current_edge != NULL ){
             printf("edge to: %d " ,(current_edge->endpoint)->node_num );
             printf("\n in weight: %d , ", current_edge->weight);
+            current_edge = current_edge->next;
          }
 
         printf("next node: \n");
@@ -94,6 +99,7 @@ void deleteGraph_cmd(pnode* head){
     pnode current = *head;
     if ((current) -> next == NULL){
         delete_node_cmd(head , current);
+        return;
     }
         pnode *to_del= &(current->next);
         return deleteGraph_cmd( to_del);
