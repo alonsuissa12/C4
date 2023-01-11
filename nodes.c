@@ -95,7 +95,7 @@ void deleteGraph_cmd(pnode* head){
     if ((current) -> next == NULL){
         delete_node_cmd(head , current);
     }
-        pnode *to_del = current->next;
+        pnode *to_del= &(current->next);
         return deleteGraph_cmd( to_del);
 }
 
