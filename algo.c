@@ -18,6 +18,7 @@ void dijkstra(pnode start,pnode head){
     //initialize start node
     pnode current = start;
     int distance = 0;
+    int next_edge_weight = 0;
     current->prev = NULL;
     current->shortest_path = 0;
     int keepGoing = 1;
@@ -38,15 +39,18 @@ void dijkstra(pnode start,pnode head){
                 if(current_edge->endpoint->shortest_path < next_node_distance){
                     next_node_distance = current_edge->endpoint->shortest_path + distance;
                     nextNode = current_edge->endpoint;
+                    next_edge_weight = current_edge ->weight
                 }
             }
             current_edge = current_edge->next;
         }
-        //change was_visited of current node
-        current->was_visited = 1;
-        current = nextNode;
         if(nextNode == NULL){
             keepGoing = 0;
+        } else {
+            //change was_visited of current node
+            current->was_visited = 1;
+            distance = current->shortest_path + next_edge_weight;
+            current = nextNode;
         }
     }
 

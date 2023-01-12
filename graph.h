@@ -20,7 +20,7 @@ typedef struct GRAPH_NODE_ {
     int was_visited;
 } node, *pnode;
 
-void build_graph_cmd(pnode *head);
+int build_graph_cmd(pnode *head, int);
 void insert_node_cmd(pnode *head);
 void delete_node_cmd(pnode *head, pnode to_delete);
 void printGraph_cmd(pnode head); //for self debug
