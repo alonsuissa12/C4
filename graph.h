@@ -21,7 +21,7 @@ typedef struct GRAPH_NODE_ {
 } node, *pnode;
 
 int build_graph_cmd(pnode *head, int);
-void insert_node_cmd(pnode *head);
+pnode insert_node_cmd(pnode *head, int num);
 void delete_node_cmd(pnode *head, pnode to_delete);
 void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head);

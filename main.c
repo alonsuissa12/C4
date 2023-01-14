@@ -34,33 +34,88 @@ int main() {
             scanf(" %c", &scan);
             // if the user want to add edges
             if (scan == 'n') {
-                char *word;
+                char word[10];
                 //getting the source
-                get_word(word);
+                int len_of_word = get_word(word);
                 int source = string_to_int(word);
-                while (1) {
-                    // getting the destination
-                    if (get_word(word) == 1) {
-                        // if the length of the input is 1: check if this is the end of the adding edges input.
-                        if ('0' > word[0] || word[0] > '9') {
-                            //if it is: keep the input char in scan and get out of the adding edges lop.
-                            scan = word[0];
+                if (len_of_word == -1) {
+                    keep_going = 0;
+                }
+                else {
+                    while (1) {
+                        len_of_word = get_word(word);
+                        if (len_of_word == -1) {
+                            keep_going = 0;
                             break;
                         }
-                    }
-                    int dest = string_to_int(word);
-                    get_word(word);
-                    int weight = string_to_int(word);
-                    addEdge(head, source, dest, weight);
-                    //if we got EOF: exit all the loops.
-                    if(len_of_word == -1){
-                        keep_going = 0;
-                        break;
+                        if (len_of_word == 1) {
+                            // if the length of the input is 1: check if this is the end of the adding edges input.
+                            if ('0' > word[0] || word[0] > '9') {
+                                //if it is: keep the input char in scan and get out of the adding edges lop.
+                                scan = word[0];
+                                break;
+                            }
+                        }
+                        // getting the destination
+                        int dest = string_to_int(word);
+                        len_of_word = get_word(word);
+                        int weight = string_to_int(word);
+                        addEdge(head, source, dest, weight);
+                        //if we got EOF: exit all the loops.
+                        if (len_of_word == -1) {
+                            keep_going = 0;
+                            break;
+                        }
                     }
                 }
             }
         }
         if (start_letter == 'B') {
+            char word[10];
+            if (get_word(word) == -1) {
+                keep_going = 0;
+            }
+            int source = string_to_int(word);
+            pnode current = head;
+            int deleted = 0;
+            while (current != NULL && deleted == 0) {
+                if (current->node_num == source) {
+                    delete_node_cmd(phead, current);
+                    deleted = 1;
+                }
+                current = current->next;
+            }
+            insert_node_cmd(phead, source);
+            //adding edges
+            while (1) {
+                int word_len = get_word(word);
+                if (word_len == -1) {
+                    keep_going = 0;
+                    break;
+                }
+                if (word_len == 1) {
+                    if (word_len < '0' || word_len > '9') {
+                        scan = word[0];
+                        break;
+                    }
+                }
+                int dest = string_to_int(word);
+                word_len = get_word(word);
+                int weight = string_to_int(word);
+                addEdge(head, source, dest, weight);
+                if (word_len == -1) {
+                    keep_going = 0;
+                    break;
+                }
+            }
+        }
+        if(scan == 'D'){
+
+        }
+        if(scan == 'S'){
+
+        }
+        if(scan == 'T'){
 
         }
 
@@ -70,7 +125,7 @@ int main() {
 }
 
 // get the next word from the stdin to the input string 'word'.
-//return the length of the word
+//return the length of the word or -1 if got EOF.
 //NOTE: this function also gets one char after the word but ignoring it.
 int get_word(char *word) {
     char scan = 'c';
@@ -80,7 +135,7 @@ int get_word(char *word) {
         word[i] = scan;
         i++;
     } while (scan != '\n' && scan != ' ' && scan != '\t' && scan != '\0' && scan != EOF);
-    if(scan == EOF){
+    if (scan == EOF) {
         return -1;
     }
     i -= 1;

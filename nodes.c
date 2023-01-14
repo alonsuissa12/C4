@@ -29,27 +29,26 @@ int build_graph_cmd(pnode *head, int vertexes) {
 }
 
 //inserting new node to the end of the graph-list
-void insert_node_cmd(pnode *head) {
+pnode insert_node_cmd(pnode *head, int num) {
     int nodeNum = 0;
     pnode p_new_node = (node *) (malloc(sizeof(node)));
     if (p_new_node == NULL) {
-        head = NULL;
-        return;
+        return NULL;
     }
     pnode current = *head;
     node new_node;
     new_node.next = 0;
     new_node.edges = 0;
-    new_node.shortest_path = 0;
+    new_node.shortest_path = INT_MAX;
     new_node.prev = NULL;
     new_node.was_visited = 0;
     *p_new_node = new_node;
     while (current->next != NULL) {
         current = current->next;
-        nodeNum++;
     }
     current->next = p_new_node;
-    p_new_node->node_num = nodeNum;
+    p_new_node->node_num = num;
+    return p_new_node;
 }
 
 void delete_node_cmd(pnode *head, pnode to_delete) {
