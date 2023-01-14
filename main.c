@@ -4,67 +4,103 @@
 #include <stdio.h>
 #include "nodes.h"
 #include "edges.h"
+#include <string.h>
+
+int string_to_int(char *word);
+
+int get_word(char *word);
 
 int main() {
     char scan = '\0';
     pnode head = NULL;
     pnode *phead = &head;
     int num_nodes = 0;
+    int keep_going = 1;
 
-    while (scan != EOF){
+    while (scan != EOF && keep_going) {
         scanf(" %c", &scan);
         if (start_letter == 'A') {
             // delete the older graph
-            if(head != NULL){
-                deleteGraph_cmd( phead);
+            if (head != NULL) {
+                deleteGraph_cmd(phead);
             }
             // how many nodes in graph
-            scanf("%d", &num_nodes);
+            scanf(" %d", &num_nodes);
             // initialize all the nodes in graph.
             if (!(build_graph_cmd(phead, num_nodes))) {
                 printf("could not allocate");
                 return 0;
             }
             scanf(" %c", &scan);
-            while (scan == 'n'){
-
-                int source = 0;
-                scanf(" %d", &source);
-                scanf(" %c", &scan);
-                while ('1' <= scan <= '9'){
-                    int dest = 0;
-                    int weight = 0;
-
-                    scanf(" %d", &weight);
-                    addEdge(head, source, dest, weight );
+            // if the user want to add edges
+            if (scan == 'n') {
+                char *word;
+                //getting the source
+                get_word(word);
+                int source = string_to_int(word);
+                while (1) {
+                    // getting the destination
+                    if (get_word(word) == 1) {
+                        // if the length of the input is 1: check if this is the end of the adding edges input.
+                        if ('0' > word[0] || word[0] > '9') {
+                            //if it is: keep the input char in scan and get out of the adding edges lop.
+                            scan = word[0];
+                            break;
+                        }
+                    }
+                    int dest = string_to_int(word);
+                    get_word(word);
+                    int weight = string_to_int(word);
+                    addEdge(head, source, dest, weight);
+                    //if we got EOF: exit all the loops.
+                    if(len_of_word == -1){
+                        keep_going = 0;
+                        break;
+                    }
                 }
             }
-
+        }
+        if (start_letter == 'B') {
 
         }
-
-
-
-
-
-        // read which node we look now and initialize its edges:
-        char n;
-        scanf("%c", n);
-        pnode current = firstnode;
-        if (n == 'n') {
-            int node;
-            scanf("%d", node);
-
-            while (current->node_num != node)
-                current = current->next;
-        }
-        do {
-
-            current->edges =
-
-        } while (n != 'n');
 
 
     }
 
+}
+
+// get the next word from the stdin to the input string 'word'.
+//return the length of the word
+//NOTE: this function also gets one char after the word but ignoring it.
+int get_word(char *word) {
+    char scan = 'c';
+    int i = 0;
+    do {
+        scan = getc(stdin);
+        word[i] = scan;
+        i++;
+    } while (scan != '\n' && scan != ' ' && scan != '\t' && scan != '\0' && scan != EOF);
+    if(scan == EOF){
+        return -1;
+    }
+    i -= 1;
+    word[i] = '\0';
+    return i;
+}
+
+// gets a String of numbers and converting it to int.
+int string_to_int(char *word) {
+    int len = strlen(word);
+    int multy = 1;
+    char c = word[len];
+    int ans = 0;
+    int digit = 0;
+    while (len => 0) {
+        digit = c - '0';
+        ans += (multy * digit);
+        digit *= 10;
+        len--;
+        c = word[len];
+    }
+    return ans;
 }
