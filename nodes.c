@@ -51,6 +51,7 @@ pnode insert_node_cmd(pnode *head, int num) {
     return p_new_node;
 }
 
+//deleting the node from the graph (and all the edges to it)
 void delete_node_cmd(pnode *head, pnode to_delete) {
     int nodeNum = to_delete->node_num;
     pnode current = *head;
@@ -59,11 +60,12 @@ void delete_node_cmd(pnode *head, pnode to_delete) {
         if ((current->next) == to_delete) {
             prev = current;
         }
-
+        //fined the edge of the current node to the delete-node (if exist)
         pedge current_edge = current->edges;
         while (current_edge != NULL && current_edge->endpoint->node_num != nodeNum) {
             current_edge = current_edge->next;
         }
+        //if the edge to the delete-node exists: delete it.
         if (current_edge != NULL) {
             pedge deleteEdge = current_edge->next;
             current_edge->next = deleteEdge->next;

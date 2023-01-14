@@ -110,7 +110,19 @@ int main() {
             }
         }
         if(scan == 'D'){
-
+            char word[10];
+            if(get_word(word) == -1){
+                keep_going = 0;
+            }
+            int node_index = string_to_int(word);
+            pnode to_delete = head;
+            while(to_delete != NULL){
+                if(node_index == to_delete->node_num){
+                    delete_node_cmd(phead,to_delete);
+                    break;
+                }
+                to_delete = to_delete->next;
+            }
         }
         if(scan == 'S'){
 
