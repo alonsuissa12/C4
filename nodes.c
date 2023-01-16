@@ -30,7 +30,6 @@ int build_graph_cmd(pnode *head, int vertexes) {
 
 //inserting new node to the end of the graph-list
 pnode insert_node_cmd(pnode *head, int num) {
-    int nodeNum = 0;
     pnode p_new_node = (node *) (malloc(sizeof(node)));
     if (p_new_node == NULL) {
         return NULL;
@@ -42,6 +41,7 @@ pnode insert_node_cmd(pnode *head, int num) {
     new_node.shortest_path = INT_MAX;
     new_node.prev = NULL;
     new_node.was_visited = 0;
+    new_node.edge_to_me = NULL;
     *p_new_node = new_node;
     while (current->next != NULL) {
         current = current->next;

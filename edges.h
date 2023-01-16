@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "graph.h"
 int addEdge(pnode head,int index, int dest, int weight );
 
 #endif //HW4_EDGES_H

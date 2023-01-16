@@ -9,7 +9,10 @@ algo.o: algo.h nodes.h graph.h
 main.o: main.c edges.h nodes.h edges.h algo.h
 	$(CC) $(FLAGS) -c main.c -o main.o
 
-all: main algo.o nodes.o edegs.o
+main: main.o algo.o edges.o nodes.o
+	gcc main.o algo.o edges.o nodes.o -o main
+
+all: main
 clean:
 	rm -f *.o
 	rm -f main

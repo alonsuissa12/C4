@@ -7,6 +7,8 @@ typedef struct edge_ {
     int weight;
     pnode endpoint;
     struct edge_ *next;
+    // for stp
+    int is_option;
 } edge, *pedge;
 
 
@@ -17,6 +19,7 @@ typedef struct GRAPH_NODE_ {
     // for dijkstra:
     int shortest_path;
     struct GRAPH_NODE_ *prev;
+    pedge edge_to_me;
     int was_visited;
 } node, *pnode;
 

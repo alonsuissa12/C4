@@ -5,6 +5,7 @@
 #include "nodes.h"
 #include "edges.h"
 #include <string.h>
+#include "algo.h"
 
 int string_to_int(char *word);
 
@@ -16,10 +17,10 @@ int main() {
     pnode *phead = &head;
     int num_nodes = 0;
     int keep_going = 1;
-
+    char word[10];
     while (scan != EOF && keep_going) {
         scanf(" %c", &scan);
-        if (start_letter == 'A') {
+        if (scan == 'A') {
             // delete the older graph
             if (head != NULL) {
                 deleteGraph_cmd(phead);
@@ -33,15 +34,13 @@ int main() {
             }
             scanf(" %c", &scan);
             // if the user want to add edges
-            if (scan == 'n') {
-                char word[10];
+            while (scan == 'n') {
                 //getting the source
                 int len_of_word = get_word(word);
                 int source = string_to_int(word);
                 if (len_of_word == -1) {
                     keep_going = 0;
-                }
-                else {
+                } else {
                     while (1) {
                         len_of_word = get_word(word);
                         if (len_of_word == -1) {
@@ -70,8 +69,7 @@ int main() {
                 }
             }
         }
-        if (start_letter == 'B') {
-            char word[10];
+        if (scan == 'B') {
             if (get_word(word) == -1) {
                 keep_going = 0;
             }
@@ -109,31 +107,136 @@ int main() {
                 }
             }
         }
-        if(scan == 'D'){
-            char word[10];
-            if(get_word(word) == -1){
+        if (scan == 'D') {
+            if (get_word(word) == -1) {
                 keep_going = 0;
             }
             int node_index = string_to_int(word);
             pnode to_delete = head;
-            while(to_delete != NULL){
-                if(node_index == to_delete->node_num){
-                    delete_node_cmd(phead,to_delete);
+            while (to_delete != NULL) {
+                if (node_index == to_delete->node_num) {
+                    delete_node_cmd(phead, to_delete);
                     break;
                 }
                 to_delete = to_delete->next;
             }
         }
-        if(scan == 'S'){
-
+        if (scan == 'S') {
+            int source = 0;
+            int dest = 0;
+            get_word(word);
+            source = string_to_int(word);
+            if (get_word(word) == -1) {
+                keep_going = 0;
+            }
+            dest = string_to_int(word);
+            pnode temp = head;
+            pnode source_node = NULL;
+            pnode dest_node = NULL;
+            int found = 0;
+            while (temp != NULL) {
+                if (temp->node_num == source) {
+                    source_node = temp;
+                    found += 1;
+                }
+                if (temp->node_num == dest) {
+                    dest_node = temp;
+                    found += 1;
+                }
+                if (found == 2) {
+                    break;
+                }
+            }
+            dijkstra(source_node, head);
+            int distance = dest_node->shortest_path;
+            printf("%d\n", distance);
         }
-        if(scan == 'T'){
+        if (scan == 'T') {
+            int int_nodes_to_visit[6];
+            pnode nodes_to_visit[6];
+            int nodes_index = 0;
+            int index = 0;
+            int size = 0;
+            for (int i = 0; i < 6; i++) {
+                int_nodes_to_visit[i] = -1;
+                nodes_to_visit[i] = NULL;
+            }
+            // input
+            word[0] = '0';
+            while (word[0] >= '0' && word[0] <= '9') {
+                if (get_word(word) == -1) {
+                    keep_going = 0;
+                }
+                int_nodes_to_visit[index] = string_to_int(word);
+                index++;
+            }
+            pnode temp = head;
+            while (temp != NULL) {
+                int num = temp->node_num;
+                for (int i = 0; i < 6; i++) {
+                    if (num == int_nodes_to_visit[i]) {
+                        nodes_to_visit[nodes_index] = temp;
+                        nodes_index++;
+                    }
+                }
+                // set to zore is_option of every edge
+                pedge e = temp->edges;
+                while (e != NULL) {
+                    e->is_option = 0;
+                    e = e->next;
+                }
+                temp = temp->next;
+            }
+            size = nodes_index;
+            nodes_index = 0;
+            //dijkstra on each *and mark all the edges of the shortest path*
+            for (int i = 0; i < size && nodes_to_visit[i] != NULL; i++) {
+                dijkstra(nodes_to_visit[i], head);
+                for (int j = i + 1; j < size && nodes_to_visit[j] != NULL; j++) {
+                    pnode end = nodes_to_visit[j];
+                    while (end != nodes_to_visit[i]) {
+                        end->edge_to_me->is_option = 1;
+                        end = end->prev;
+                    }
+                }
+            }
+            // check all the option paths on marked edges and choose the shortest
+
+            p_str_int min_path = NULL;
+            for (int i = 0; i < size; i++) {
+                int check_in2[size];
+                for (int j = 0; j < size; j++) {
+                    check_in2[j] = 0;
+                }
+                pnode *pb_head;
+                build_graph_cmd(pb_head, 1);
+                (*pb_head)->node_num = -1;
+                p_str_int temp_path = shortest_path(nodes_to_visit, size, pb_head, nodes_to_visit[i], check_in2);
+                if (min_path == NULL) {
+                    min_path = temp_path;
+                } else {
+                    if (temp_path != NULL) {
+                        if (temp_path->length < min_path->length)
+                            min_path = temp_path;
+                    }
+                }
+                deleteGraph_cmd(pb_head);
+            }
+            if(min_path == NULL){
+                printf("%d", -1);
+            } else{
+                char * to_print = min_path->string;
+                //deleting the last space (' ').
+                to_print[strlen(to_print)-1] = '\0';
+                printf("%s",to_print);
+            }
+
 
         }
 
 
     }
-
+    return 0;
 }
 
 // get the next word from the stdin to the input string 'word'.
@@ -159,15 +262,17 @@ int get_word(char *word) {
 int string_to_int(char *word) {
     int len = strlen(word);
     int multy = 1;
+    len --;
     char c = word[len];
     int ans = 0;
     int digit = 0;
-    while (len => 0) {
+    while (len > 0) {
         digit = c - '0';
         ans += (multy * digit);
-        digit *= 10;
+        multy *= 10;
         len--;
-        c = word[len];
+        if(len > 0)
+            c = word[len];
     }
     return ans;
 }
