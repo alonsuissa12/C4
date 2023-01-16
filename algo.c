@@ -83,8 +83,9 @@ p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, 
             break;
         }
     }
-
+    // add to passed_by
     insert_node_cmd(passedby, current->node_num);
+
     pedge current_edge = current->edges;
     p_str_int ans = NULL;
     int edge_w = 0;
