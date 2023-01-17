@@ -2,7 +2,7 @@
 // Created by alon on 1/10/23.
 //
 
-#include "algo.h"
+#include "graph.h"
 
 //updates every the node's shortest_path to the shortest distance from the start node (UNT_MAX if path doesn't exist).
 //also updates every node's prev point to node which the shortest path to this node come from (NULL if path doesn't exist).

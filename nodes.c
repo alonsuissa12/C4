@@ -2,7 +2,7 @@
 // Created by alon on 1/10/23.
 //
 
-#include "nodes.h"
+#include "graph.h"
 
 //creating the first node of the new graph
 int build_graph_cmd(pnode *head, int vertexes) {

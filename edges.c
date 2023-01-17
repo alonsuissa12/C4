@@ -2,7 +2,7 @@
 // Created by alon on 1/10/23.
 //
 
-#include "edges.h"
+#include "graph.h"
 
 int addEdge(pnode head, int index, int dest, int weight) {
     pedge edge_to_add = (pedge)(malloc(sizeof(edge)));

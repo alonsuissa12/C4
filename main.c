@@ -1,11 +1,9 @@
 //
 // Created by alon on 1/10/23.
 //
-#include <stdio.h>
-#include "nodes.h"
-#include "edges.h"
-#include <string.h>
-#include "algo.h"
+#include "graph.h"
+
+
 
 int string_to_int(char *word);
 
@@ -208,7 +206,7 @@ int main() {
                 for (int j = 0; j < size; j++) {
                     check_in2[j] = 0;
                 }
-                pnode *pb_head;
+                pnode *pb_head = NULL;
                 build_graph_cmd(pb_head, 1);
                 (*pb_head)->node_num = -1;
                 p_str_int temp_path = shortest_path(nodes_to_visit, size, pb_head, nodes_to_visit[i], check_in2);

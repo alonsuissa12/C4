@@ -1,12 +1,12 @@
 CC = gcc
 FLAGS = -Wall -g
-nodes.o :nodes.h graph.h nodes.c
-	$(CC) $(FLAGS) nodes.c -o nodes.o
-edegs.o: edges.h graph.h edges.c
-	$(CC) $(FLAGS) -c eddges.c - o eddges.o
-algo.o: algo.h nodes.h graph.h
+nodes.o : graph.h nodes.c
+	$(CC) $(FLAGS) -c nodes.c -o nodes.o
+edges.o: graph.h edges.c
+	$(CC) $(FLAGS) -c edges.c -o edges.o
+algo.o: graph.h
 	$(CC) $(FLAGS) -c algo.c -o algo.o
-main.o: main.c edges.h nodes.h edges.h algo.h
+main.o: main.c graph.h
 	$(CC) $(FLAGS) -c main.c -o main.o
 
 main: main.o algo.o edges.o nodes.o
