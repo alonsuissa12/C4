@@ -117,7 +117,7 @@ p_str_int TSP(pnode head) {
     }
     int check_in[size];
     p_str_int min = (p_str_int) malloc(sizeof(str_int));
-    min->length = max;
+    min->length = -1;
     p_str_int temp = NULL;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -147,7 +147,7 @@ p_str_int shortest_path(pnode *nodes, int size, pnode current, int *check_in, in
     // if the path doest fit
     if (sum > max_sum) {
         p_str_int ans = (p_str_int) malloc(sizeof(str_int));
-        ans->length = sum;
+        ans->length = INT_MAX;
         ans->string[0] = '-';
         ans->string[1] = '1';
         ans->string[2] = '\0';
@@ -204,7 +204,7 @@ p_str_int shortest_path(pnode *nodes, int size, pnode current, int *check_in, in
         char buff[7] ={0};
         sprintf(buff,"%d",-1);
         strncat(ans1->string,buff, strlen(buff));
-        ans1->length = max_sum;
+        ans1->length = INT_MAX;
         return ans1;
     } else {
         char buff[7] ={0};

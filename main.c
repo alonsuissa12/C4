@@ -2,7 +2,9 @@
 // Created by alon on 1/10/23.
 //
 #include "graph.h"
-
+//#include "edges.c"
+//#include "nodes.c"
+//#include "algo.c"
 
 int string_to_int(char *word);
 
@@ -69,12 +71,13 @@ int main() {
             pnode *ppn = &pn;
             findNode(head, ppn, dest_num);
             //print the shortest path
-            printf("%d\n", pn->shortest_path);
+            printf("Dijsktra shortest path: %d\n", pn->shortest_path);
         }
 
         if (flag == 'T') {
+            printGraph_cmd(head);
             p_str_int ans = TSP(head);
-            printf("%s\n",ans->string);
+            printf("TSP shortest path: %d\n",ans->length);
             free(ans);
         }
         //printGraph_cmd(head);
