@@ -121,7 +121,7 @@ void TSP(pnode head) {
         for (int j = 0; j < size; j++) {
             check_in[j] = 0;
         }
-        ptemp = shortest_path(dests_nodes, size, dests_nodes[i], check_in, 0, (max * size));
+        ptemp = shortest_path(dests_nodes, size, dests_nodes[i], check_in, 0, (max * size),0);
         if (*ptemp != -1 && *ptemp < *pmin) {
             free(pmin);
             pmin = ptemp;
@@ -131,23 +131,24 @@ void TSP(pnode head) {
     }
     if (*pmin == INT_MAX) {
         printf("TSP shortest path: %d \n", -1);
+    } else {
+        printf("TSP shortest path: %d \n", *pmin);
     }
-    printf("TSP shortest path: %d \n", *pmin);
     free(pmin);
 }
 
 
-int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum, int max_sum) {
+int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum, int max_sum,int check_in_index) {
     // if the path doest fit
     if (sum > max_sum) {
         int *ans = (int *) calloc(1, sizeof(int));
-        *ans = -1;
+        *ans = INT_MAX;
         return ans;
     }
     //check_in
     for (int j = 0; j < size; j++) {
         if (nodes[j]->node_num == current->node_num) {
-            check_in[j] = 1;
+            check_in[j]++;
             break;
         }
     }
@@ -161,6 +162,13 @@ int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum
 
     // if all checked in
     if (i == size) {
+        // check out
+        for (int j = 0; j < size; j++) {
+            if (nodes[j]->node_num == current->node_num) {
+                check_in[j] --;
+                break;
+            }
+        }
         int *ans = (int *) calloc(1, sizeof(int));
         *ans = sum;
         return ans;
@@ -171,7 +179,7 @@ int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum
     *ans = INT_MAX;
     while (current_edge != NULL) {
         if (current_edge->is_option == 1) {
-            int *ptemp = shortest_path(nodes, size, current_edge->endpoint, check_in, sum + current_edge->weight,max_sum);
+            int *ptemp = shortest_path(nodes, size, current_edge->endpoint, check_in, sum + current_edge->weight,max_sum,check_in_index);
 
             if (ptemp != NULL && *ans > *ptemp) {
                 free(ans);
@@ -185,8 +193,15 @@ int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum
     }
 
     // if no way to go (and didn't pass by all)
-    if (*ans == INT_MAX) {
-        *ans = -1;
+//    if (*ans == INT_MAX) {
+//        *ans = -1;
+//    }
+    //check out
+    for (int j = 0; j < size; j++) {
+        if (nodes[j]->node_num == current->node_num) {
+            check_in[j]--;
+            break;
+        }
     }
     return ans;
 

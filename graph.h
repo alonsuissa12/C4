@@ -39,12 +39,8 @@ void TSP_cmd(pnode head);
 int addEdges(pnode head,int index );
 void dijkstra(pnode head,int start_num);
 
-typedef struct str_int{
-    char string[10000];
-    int length;
-}str_int, *p_str_int;
 
-int * shortest_path( pnode *nodes ,int size, pnode, int * , int sum, int max_sum);
+int * shortest_path( pnode *nodes ,int size, pnode, int * , int sum, int max_sum, int check_in_index);
 void TSP(pnode head );
 
 int is_in_list(pnode *head, pnode n);
