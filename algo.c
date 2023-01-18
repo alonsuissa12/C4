@@ -7,7 +7,14 @@
 //updates every the node's shortest_path to the shortest distance from the start node (UNT_MAX if path doesn't exist).
 //also updates every node's prev point to node which the shortest path to this node come from (NULL if path doesn't exist).
 //also update for every node, the node that leads to it.
-void dijkstra(pnode start, pnode head) {
+void dijkstra( pnode head) {
+    //finding the start vertex
+    int start_num = 0;
+    printf("# 1\n");
+    scanf(" %d", &start_num);
+    pnode start = NULL;
+    pnode * pstart = &start;
+    findNode(head,pstart,start_num);
     //initialize all vertices
     pnode temp = head;
     while (temp != NULL) {
@@ -17,6 +24,7 @@ void dijkstra(pnode start, pnode head) {
         temp = temp->next;
         temp->edge_to_me = NULL;
     }
+    printf("# 2\n");
     //initialize start node
     pnode current = start;
     int distance = 0;
@@ -30,6 +38,7 @@ void dijkstra(pnode start, pnode head) {
         pnode nextNode = NULL;
         pedge current_edge = current->edges;
         int next_node_distance = INT_MAX;
+        printf("# 3\n");
         while (current_edge != NULL) {
             // check every neighbor if we found shorter path to it. if we do- we will update its shortest path ,prev,edge_to_me
             if (current_edge->endpoint->shortest_path > distance + current_edge->weight) {
@@ -46,7 +55,9 @@ void dijkstra(pnode start, pnode head) {
                 }
             }
             current_edge = current_edge->next;
+            printf("# 4\n");
         }
+        printf("# 5\n");
         if (nextNode == NULL) {
             keepGoing = 0;
         } else {
@@ -56,6 +67,7 @@ void dijkstra(pnode start, pnode head) {
             current = nextNode;
         }
     }
+    printf("# 6\n");
 
 }
 
@@ -77,9 +89,9 @@ p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, 
         return pStrInt;
     }
     //check_in
-    for (int i = 0; i < size; i++) {
-        if ((*nodes)[i].node_num == current->node_num) {
-            check_in[i] = 1;
+    for (int j = 0; j < size; j++) {
+        if ((*nodes)[j].node_num == current->node_num) {
+            check_in[j] = 1;
             break;
         }
     }

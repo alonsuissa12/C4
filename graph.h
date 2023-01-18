@@ -27,7 +27,7 @@ typedef struct GRAPH_NODE_ {
     int was_visited;
 } node, *pnode;
 
-int build_graph_cmd(pnode *head, int);
+int build_graph_cmd(pnode *head);
 pnode insert_node_cmd(pnode *head, int num);
 void delete_node_cmd(pnode *head, pnode to_delete);
 void printGraph_cmd(pnode head); //for self debug
@@ -35,8 +35,8 @@ void deleteGraph_cmd(pnode* head);
 void shortsPath_cmd(pnode head);
 void TSP_cmd(pnode head);
 
-int addEdge(pnode head,int index, int dest, int weight );
-void dijkstra(pnode start,pnode head);
+int addEdges(pnode head,int index );
+void dijkstra(pnode head);
 
 typedef struct str_int{
     char * string;
@@ -46,6 +46,7 @@ typedef struct str_int{
 p_str_int shortest_path(pnode *nodes ,int size, pnode *, pnode, int *);
 
 int is_in_list(pnode *head, pnode n);
+void findNode(pnode head ,pnode * pn, int num);
 
 void freeEdges(pedge );
 void freeNode(pnode );
