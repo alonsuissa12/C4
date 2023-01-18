@@ -12,6 +12,8 @@ void dijkstra(pnode head) {
     int start_num = 0;
     printf("# 1\n");
     scanf(" %d", &start_num);
+    printf("start in: %d\n",start_num);
+
     pnode start = NULL;
     pnode *pstart = &start;
     findNode(head, pstart, start_num);
@@ -21,8 +23,9 @@ void dijkstra(pnode head) {
         temp->shortest_path = INT_MAX;
         temp->prev = NULL;
         temp->was_visited = 0;
-        temp = temp->next;
         temp->edge_to_me = NULL;
+        temp = temp->next;
+
     }
     printf("# 2\n");
     //initialize start node

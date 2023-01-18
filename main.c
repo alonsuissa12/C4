@@ -2,6 +2,9 @@
 // Created by alon on 1/10/23.
 //
 #include "graph.h"
+//#include "nodes.c"
+//#include "edges.c"
+//#include "algo.c"
 
 
 int string_to_int(char *word);
@@ -59,7 +62,9 @@ int main() {
         }
 
         if (flag == 'S') {
+            printf("in S\n");
             dijkstra(head);
+            printf("done with algo\n");
             //find dest node
             int dest_num;
             scanf(" %d", &dest_num);
