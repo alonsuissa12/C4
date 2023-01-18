@@ -83,7 +83,7 @@ void TSP(pnode head) {
     int dest_ints[6] = {-1, -1, -1, -1, -1, -1};
     pnode dests_nodes[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
 
-    for (int index = 0; scanf(" %d", &dest_ints[index]); index++) {
+    for (int index = 0; scanf(" %d", &dest_ints[index])==1; index++) {
         pnode pn = NULL;
         pnode *ppn = &pn;
         findNode(head, ppn, dest_ints[index]);
