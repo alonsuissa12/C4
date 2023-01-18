@@ -71,12 +71,12 @@ int main() {
             pnode *ppn = &pn;
             findNode(head, ppn, dest_num);
             //print the shortest path
-            printf("Dijsktra shortest path: %d\n", pn->shortest_path);
+            printf("Dijsktra shortest path: %d \n", pn->shortest_path);
         }
 
         if (flag == 'T') {
             p_str_int ans = TSP(head);
-            printf("TSP shortest path: %d\n",ans->length);
+            printf("TSP shortest path: %d \n",ans->length);
             free(ans);
         }
         //printGraph_cmd(head);
