@@ -43,7 +43,8 @@ typedef struct str_int{
     int length;
 }str_int, *p_str_int;
 
-p_str_int shortest_path(pnode *nodes ,int size, pnode *, pnode, int *);
+p_str_int shortest_path( pnode *nodes ,int size, pnode *, pnode, int *);  ////!!!!!!!!!!!!!!!!!!
+p_str_int TSP(pnode head );
 
 int is_in_list(pnode *head, pnode n);
 void findNode(pnode head ,pnode * pn, int num);

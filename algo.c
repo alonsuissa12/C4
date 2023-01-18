@@ -10,9 +10,7 @@
 void dijkstra(pnode head) {
     //finding the start vertex
     int start_num = 0;
-    printf("# 1\n");
     scanf(" %d", &start_num);
-    printf("start in: %d\n",start_num);
 
     pnode start = NULL;
     pnode *pstart = &start;
@@ -27,7 +25,6 @@ void dijkstra(pnode head) {
         temp = temp->next;
 
     }
-    printf("# 2\n");
     //initialize start node
     pnode current = start;
     int distance = 0;
@@ -41,7 +38,6 @@ void dijkstra(pnode head) {
         pnode nextNode = NULL;
         pedge current_edge = current->edges;
         int next_node_distance = INT_MAX;
-        printf("# 3\n");
         while (current_edge != NULL) {
             // check every neighbor if we found shorter path to it. if we do- we will update its shortest path ,prev,edge_to_me
             if (current_edge->endpoint->shortest_path > distance + current_edge->weight) {
@@ -58,9 +54,7 @@ void dijkstra(pnode head) {
                 }
             }
             current_edge = current_edge->next;
-            printf("# 4\n");
         }
-        printf("# 5\n");
         if (nextNode == NULL) {
             keepGoing = 0;
         } else {
@@ -70,11 +64,82 @@ void dijkstra(pnode head) {
             current = nextNode;
         }
     }
-    printf("# 6\n");
-
 }
 
+p_str_int TSP(pnode head) {
+    //set to zero is option
+    pnode temp_node_to_set = head;
+    while (temp_node_to_set != NULL) {
+        pedge temp_edge = temp_node_to_set->edges;
+        while (temp_edge != NULL) {
+            temp_edge->is_option = 0;
+            temp_edge = temp_edge->next;
+        }
+        temp_node_to_set = temp_node_to_set->next;
+    }
+    // input
+    int dest_ints[6] = {-1, -1, -1, -1, -1, -1};
+    pnode dests_nodes[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
+    int index = 0;
+    while (scanf(" %d", &dest_ints[index])) {
+        pnode pn = NULL;
+        pnode *ppn = &pn;
+        findNode(head, ppn, dest_ints[index]);
+        dests_nodes[index] = pn;
+        index++;
+    }
+    int size = index;
+    // if we only have one destenation
+    if (size == 1) {
+        p_str_int ans = (p_str_int) malloc(sizeof(str_int));
+        ans->length = 0;
+        char str_ans[2] = {(dest_ints[0] - '0'), '\0'};
+        ans->string = str_ans;
+        return ans;
+    }
+    //mark edges
+    for (int i = 0; i < size - 1; i++) {
+        dijkstra(dests_nodes[i]);
+        for (int j = i + 1; j < size; j++) {
+            pnode cur_node = dests_nodes[j];
+            // if path desent exists return -1
+            if (cur_node->shortest_path == INT_MAX) {
+                p_str_int ans = (p_str_int) malloc(sizeof(str_int));
+                ans->length = -1;
+                char str_ans[3] = {'-', '1', '\0'};
+                ans->string = str_ans;
+                return ans;
+            }
+            pedge temp_edge = cur_node->edge_to_me;
+            do {
+                temp_edge->is_option = 1;
+            } while (temp_edge->endpoint != dests_nodes[i]);
+        }
+    }
+    int check_in[size];
+    pnode passedby = NULL;
+    pnode *p_passedby = &passedby;
+    p_str_int min = (p_str_int) malloc(sizeof(str_int));
+    min->length = INT_MAX;
+    p_str_int temp = NULL;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            check_in[j] = 0;
+        }
+        temp = shortest_path(dests_nodes, size, p_passedby, dests_nodes[i], check_in);
+        if (temp->length < min->length) {
+            free(min);
+            min = temp;
+        } else {
+            free(temp);
+        }
+    }
+    return min;
+}
+
+
 p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, int *check_in) {
+
     int i = 0;
     for (; i < size; i++) {
         if (check_in[i] == 0) {
