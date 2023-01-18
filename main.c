@@ -69,7 +69,7 @@ int main() {
             pnode *ppn = &pn;
             findNode(head, ppn, dest_num);
             //print the shortest path
-            printf("%d ", pn->shortest_path);
+            printf("%d\n", pn->shortest_path);
         }
 
         if (flag == 'T') {
