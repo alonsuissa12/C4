@@ -117,7 +117,7 @@ p_str_int TSP(pnode head) {
     }
     int check_in[size];
     p_str_int min = (p_str_int) malloc(sizeof(str_int));
-    min->length = -1;
+    min->length = INT_MAX;
     p_str_int temp = NULL;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -131,13 +131,10 @@ p_str_int TSP(pnode head) {
             free(temp);
         }
     }
-    if(min == NULL){
-        p_str_int ans = (p_str_int) calloc(1,sizeof(str_int));
-        ans->length = -1;
-        ans->string[0] = '-';
-        ans->string[1] = '1';
-        ans->string[2] = '\0';
-        return ans;
+    if(min ->length > max){
+        //p_str_int ans = (p_str_int) calloc(1,sizeof(str_int));
+        min->length = -1;
+        return min;
     }
     return min;
 }

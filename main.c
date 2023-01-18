@@ -15,8 +15,8 @@ int main() {
     pnode head = NULL;
     pnode *phead = &head;
     char flag = '0';
-    while (flag != EOF) {
-        scanf(" %c", &flag);
+    while (scanf(" %c", &flag) != EOF) {
+
 
         if (flag == 'A') {
             build_graph_cmd(phead);
@@ -75,7 +75,6 @@ int main() {
         }
 
         if (flag == 'T') {
-            printGraph_cmd(head);
             p_str_int ans = TSP(head);
             printf("TSP shortest path: %d\n",ans->length);
             free(ans);
