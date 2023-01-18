@@ -32,6 +32,7 @@ int addEdges(pnode head,int index) {
             temp = temp->next;
         }
         pedge head_edge = sorce->edges;
+        edge_to_add->startpoint = sorce;
         edge_to_add->endpoint = destenation;
         edge_to_add->weight = weight;
         edge_to_add->next = head_edge;

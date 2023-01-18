@@ -10,6 +10,7 @@ typedef struct GRAPH_NODE_ *pnode;
 typedef struct edge_ {
     int weight;
     pnode endpoint;
+    pnode startpoint;
     struct edge_ *next;
     // for stp
     int is_option;
@@ -36,14 +37,14 @@ void shortsPath_cmd(pnode head);
 void TSP_cmd(pnode head);
 
 int addEdges(pnode head,int index );
-void dijkstra(pnode head);
+void dijkstra(pnode head,int start_num);
 
 typedef struct str_int{
-    char * string;
+    char string[10000];
     int length;
 }str_int, *p_str_int;
 
-p_str_int shortest_path( pnode *nodes ,int size, pnode *, pnode, int *);  ////!!!!!!!!!!!!!!!!!!
+p_str_int shortest_path( pnode *nodes ,int size, pnode, int * , int sum, int max_sum);
 p_str_int TSP(pnode head );
 
 int is_in_list(pnode *head, pnode n);

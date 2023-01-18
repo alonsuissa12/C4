@@ -4,7 +4,7 @@ nodes.o : graph.h nodes.c
 	$(CC) $(FLAGS) -c nodes.c -o nodes.o
 edges.o: graph.h edges.c
 	$(CC) $(FLAGS) -c edges.c -o edges.o
-algo.o: graph.h
+algo.o: graph.h algo.c
 	$(CC) $(FLAGS) -c algo.c -o algo.o
 main.o: main.c graph.h
 	$(CC) $(FLAGS) -c main.c -o main.o
