@@ -17,3 +17,9 @@ clean:
 	rm -f *.o
 	rm -f main
 .PHONEY: all clean
+
+test-memory-1: clean all
+	valgrind ./graph < input1.txt
+
+test-memory-2: clean all
+	valgrind ./graph < input2.txt

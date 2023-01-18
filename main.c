@@ -77,9 +77,13 @@ int main() {
         if (flag == 'T') {
             TSP(head);
         }
+        if(flag == 'E'){
+            break;
+        }
         //printGraph_cmd(head);
         //printf("last input: %c\n", flag);
 
     }
+    deleteGraph_cmd(phead);
 
 }
