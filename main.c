@@ -75,9 +75,7 @@ int main() {
         }
 
         if (flag == 'T') {
-            p_str_int ans = TSP(head);
-            printf("TSP shortest path: %d \n",ans->length);
-            free(ans);
+            TSP(head);
         }
         //printGraph_cmd(head);
         //printf("last input: %c\n", flag);

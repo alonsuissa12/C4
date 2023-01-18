@@ -7,7 +7,7 @@
 //updates every the node's shortest_path to the shortest distance from the start node (UNT_MAX if path doesn't exist).
 //also updates every node's prev point to node which the shortest path to this node come from (NULL if path doesn't exist).
 //also update for every node, the node that leads to it.
-void dijkstra(pnode head,int start_num) {
+void dijkstra(pnode head, int start_num) {
     //finding the start vertex
 //    int start_num = 0;
 //    scanf(" %d", &start_num);
@@ -66,7 +66,7 @@ void dijkstra(pnode head,int start_num) {
     }
 }
 
-p_str_int TSP(pnode head) {
+void TSP(pnode head) {
     //set to zero is option
     pnode temp_node_to_set = head;
     while (temp_node_to_set != NULL) {
@@ -78,7 +78,7 @@ p_str_int TSP(pnode head) {
         temp_node_to_set = temp_node_to_set->next;
     }
     int size;
-    scanf("%d",&size);
+    scanf("%d", &size);
     // input
     int dest_ints[6] = {-1, -1, -1, -1, -1, -1};
     pnode dests_nodes[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
@@ -91,16 +91,12 @@ p_str_int TSP(pnode head) {
     }
     // if we only have one destenation
     if (size == 1) {
-        p_str_int ans = (p_str_int) malloc(sizeof(str_int));
-        ans->length = 0;
-        ans->string[0] = '0';
-        ans->string[1] = '\0';
-        return ans;
+        printf("TSP shortest path: %d \n", 0);
     }
     int max = -1;
     //mark edges
     for (int i = 0; i < size; i++) {
-        dijkstra(head,dest_ints[i]);
+        dijkstra(head, dest_ints[i]);
         for (int j = 0; j < size; j++) {
             pnode cur_node = dests_nodes[j];
             pedge temp_edge = cur_node->edge_to_me;
@@ -116,38 +112,36 @@ p_str_int TSP(pnode head) {
         }
     }
     int check_in[size];
-    p_str_int min = (p_str_int) malloc(sizeof(str_int));
-    min->length = INT_MAX;
-    p_str_int temp = NULL;
+
+    int *pmin = malloc(sizeof(int));
+    *pmin = INT_MAX;
+    int temp = -1;
+    int *ptemp = &temp;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             check_in[j] = 0;
         }
-        temp = shortest_path(dests_nodes, size, dests_nodes[i], check_in, 0, (max * size));
-        if (temp->length < min->length) {
-            free(min);
-            min = temp;
+        ptemp = shortest_path(dests_nodes, size, dests_nodes[i], check_in, 0, (max * size));
+        if (*ptemp != -1 && *ptemp < *pmin) {
+            free(pmin);
+            pmin = ptemp;
         } else {
-            free(temp);
+            free(ptemp);
         }
     }
-    if(min ->length > max){
-        //p_str_int ans = (p_str_int) calloc(1,sizeof(str_int));
-        min->length = -1;
-        return min;
+    if (*pmin == INT_MAX) {
+        printf("TSP shortest path: %d \n", -1);
     }
-    return min;
+    printf("TSP shortest path: %d \n", *pmin);
+    free(pmin);
 }
 
 
-p_str_int shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum, int max_sum) {
+int *shortest_path(pnode *nodes, int size, pnode current, int *check_in, int sum, int max_sum) {
     // if the path doest fit
     if (sum > max_sum) {
-        p_str_int ans = (p_str_int) malloc(sizeof(str_int));
-        ans->length = INT_MAX;
-        ans->string[0] = '-';
-        ans->string[1] = '1';
-        ans->string[2] = '\0';
+        int *ans = (int *) calloc(1, sizeof(int));
+        *ans = -1;
         return ans;
     }
     //check_in
@@ -167,48 +161,34 @@ p_str_int shortest_path(pnode *nodes, int size, pnode current, int *check_in, in
 
     // if all checked in
     if (i == size) {
-        p_str_int pStrInt = (p_str_int) (calloc(1,sizeof(str_int)));
-        char buff[7] ={0};
-        sprintf(buff,"%d",current->node_num);
-        strncat(pStrInt->string,buff, strlen(buff));
-        pStrInt->length = sum;
-        return pStrInt;
+        int *ans = (int *) calloc(1, sizeof(int));
+        *ans = sum;
+        return ans;
     }
 
     pedge current_edge = current->edges;
-    p_str_int ans = NULL;
+    int *ans = (int *) (calloc(1, sizeof(int)));
+    *ans = INT_MAX;
     while (current_edge != NULL) {
         if (current_edge->is_option == 1) {
-            p_str_int temp = shortest_path(nodes, size, current_edge->endpoint, check_in,sum + current_edge->weight, max_sum);
-            if (ans == NULL) {
-                ans = temp;
+            int *ptemp = shortest_path(nodes, size, current_edge->endpoint, check_in, sum + current_edge->weight,max_sum);
+
+            if (ptemp != NULL && *ans > *ptemp) {
+                free(ans);
+                ans = ptemp;
             } else {
-                if (temp != NULL && ans->length > temp->length) {
-                    free(ans);
-                    ans = temp;
-                }
-                else{
-                    free(temp);
-                }
+                free(ptemp);
             }
+
         }
         current_edge = current_edge->next;
     }
 
     // if no way to go (and didn't pass by all)
-    if (ans == NULL) {
-        p_str_int ans1 = (p_str_int) malloc(sizeof(str_int));
-        char buff[7] ={0};
-        sprintf(buff,"%d",-1);
-        strncat(ans1->string,buff, strlen(buff));
-        ans1->length = INT_MAX;
-        return ans1;
-    } else {
-        char buff[7] ={0};
-        sprintf(buff," %d",current->node_num);
-        strncat(ans->string,buff, strlen(buff));
-        return ans;
+    if (*ans == INT_MAX) {
+        *ans = -1;
     }
+    return ans;
 
 }
 
