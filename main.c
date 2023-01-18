@@ -18,7 +18,6 @@ int main() {
 
         if (flag == 'A') {
             build_graph_cmd(phead);
-            printf("Done with A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             head = *phead;
         }
 
@@ -29,64 +28,53 @@ int main() {
         }
 
         if (flag == 'B') {
-            printf("im ib B---------------------\n");
             int source = 0;
             scanf(" %d", &source);
-            printf("source: %d ---------------------\n",source);
             pnode pn = NULL;
             pnode *ppn = &pn;
             findNode(head, ppn, source);
             // if we found node
             if (pn != NULL) {
-                printf("i should be here (exists)\n");
                 //delete the exists node's edges
-                freeEdges(pn->edges);    /// check it!
-                printf("freed\n");
-                printGraph_cmd(head);
-                printf("\n");
+                freeEdges(pn->edges);
+                pn->edges = NULL;
                 // add to this node the new edges
-                addEdges(head, source);     ///problem
-                printf("added edges\n");
+                addEdges(head, source);
             } else {  //the node doesn't exist
-                printf("i should be here!\n");
                 insert_node_cmd(phead, source);
-                printf("inserted node!\n");
-                printf("printing graph:\n");
-                printGraph_cmd(head);
                 addEdges(head, source);
             }
         }
 
         if (flag == 'D') {
             int to_del = 0;
-            if(scanf(" %d", &to_del) == 0){
+            if (scanf(" %d", &to_del) == 0) {
                 printf("error while scanning in D case");
             }
 
             pnode pn = NULL;
             pnode *ppn = &pn;
             findNode(head, ppn, to_del);
-            delete_node_cmd(phead,pn);     //// problem on delete node!!!!!!!!!!!!!!!!!!!
-            printf("hey!!!\n");
+            delete_node_cmd(phead, pn);
         }
 
         if (flag == 'S') {
             dijkstra(head);
             //find dest node
             int dest_num;
-            scanf(" %d",&dest_num);
+            scanf(" %d", &dest_num);
             pnode pn = NULL;
             pnode *ppn = &pn;
-            findNode(head,ppn,dest_num);
+            findNode(head, ppn, dest_num);
             //print the shortest path
-            printf("%d ",pn->shortest_path);
+            printf("%d ", pn->shortest_path);
         }
 
         if (flag == 'T') {
 
         }
         printGraph_cmd(head);
-        printf("last input: %c\n",flag);
+        printf("last input: %c\n", flag);
 
     }
 

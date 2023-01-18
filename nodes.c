@@ -40,7 +40,6 @@ pnode insert_node_cmd(pnode *head, int num) {
     if (p_new_node == NULL) {
         return NULL;
     }
-    printf("******* alocated node\n");
     pnode current = *head;
     node new_node;
     new_node.next = 0;
@@ -50,16 +49,12 @@ pnode insert_node_cmd(pnode *head, int num) {
     new_node.was_visited = 0;
     new_node.edge_to_me = NULL;
     *p_new_node = new_node;
-    printf(" **************** created node\n");
-    if(*head == NULL){
+    if (*head == NULL) {
         *head = p_new_node;
-    }
-    else {
+    } else {
         while (current->next != NULL) {
-            printf("im in while of %d\n",current->node_num);
             current = current->next;
         }
-        printf("im in the last node: %d\n",current->node_num);
         current->next = p_new_node;
         p_new_node->node_num = num;
     }
@@ -71,22 +66,45 @@ void delete_node_cmd(pnode *head, pnode to_delete) {
     int nodeNum = to_delete->node_num;
     pnode current = *head;
     pnode prev = NULL;
-    printf("#1\n");
     // if we need to delete the first node
     if (to_delete == *head) {
+        // check every node's edges and delete all the edged to the first node.
+        while (current != NULL) {
+            pedge cur_edge = current->edges;
+            if (cur_edge != NULL) {
+                // if the edge we want to delete its the first edge
+                if (cur_edge->endpoint == to_delete) {
+                    current->edges = cur_edge->next;
+                    free(cur_edge);
+                } else {
+                    while (cur_edge->next != NULL) {
+                        // if the next edge need to be deleted
+                        if (cur_edge->next->endpoint == to_delete) {
+                            pedge prev_egde = cur_edge;
+                            pedge edge_to_del = prev_egde->next;
+                            prev_egde->next = edge_to_del->next;
+                            free(edge_to_del);
+                            break;
+                        }
+                        cur_edge = cur_edge->next;
+                    }
+                }
+            }
+            current = current->next;
+        }
         pnode free_node = (*head);
         (*head) = (*head)->next;
         free(free_node);
     } else {
         while (current != NULL) {
-            printf("#2\n");
             if ((current->next) == to_delete) {
                 prev = current;
             }
             //fined the edge of the current node to the delete-node (if exist)
             pedge current_edge = current->edges;
-            //if its the first edge
+
             if (current_edge != NULL) {
+                //if its the first edge
                 if (current_edge->endpoint->node_num == nodeNum) {
                     (current->edges) = current_edge->next;
                     free(current_edge);
@@ -103,7 +121,6 @@ void delete_node_cmd(pnode *head, pnode to_delete) {
                     }
                 }
             }
-            printf("#3\n");
             current = current->next;
         }
         prev->next = to_delete->next;
@@ -116,12 +133,8 @@ void printGraph_cmd(pnode head) {
     while (head != NULL) {
         printf("node: %d\n", head->node_num);
 
-        printf("it's edges:\n");
         pedge current_edge = head->edges;
-        printf("took edge\n");
         while (current_edge != NULL) {
-            printf("%d\n",current_edge->weight);
-            printf("NO\n");
             printf("\tedge to: %d ", (current_edge->endpoint)->node_num);
             printf(" in weight: %d \n", current_edge->weight);
             current_edge = current_edge->next;
@@ -148,7 +161,7 @@ void deleteGraph_cmd(pnode *head) {
         return;
     }
     pnode pdel = current->next;
-    pnode * ppdel = &pdel;
+    pnode *ppdel = &pdel;
     deleteGraph_cmd(ppdel);
     freeNode(current);
     return;
@@ -174,17 +187,13 @@ void freeNode(pnode toFree) {
 }
 
 void freeEdges(pedge toFree) {
-    printf("im in edge to :%d\n",toFree->endpoint->node_num);
-    if(toFree != NULL) {
+    if (toFree != NULL) {
         if (toFree->next == NULL) {
-            printf("im the last %d\n",toFree->endpoint->node_num);
             free(toFree);
-            printf("freed 2\n");
             return;
         }
         freeEdges(toFree->next);
         free(toFree);
-        printf("freed 3\n");
         return;
     }
 }

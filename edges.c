@@ -5,13 +5,11 @@
 #include "graph.h"
 
 int addEdges(pnode head,int index) {
-
     int dest;
     int weight;
     // while the input is numbers
     while(scanf(" %d",&dest) == 1) {
         scanf(" %d", &weight);
-
         pedge edge_to_add = (pedge) (malloc(sizeof(edge)));
         if (edge_to_add == NULL) {
             return 0;

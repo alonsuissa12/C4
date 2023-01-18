@@ -7,14 +7,14 @@
 //updates every the node's shortest_path to the shortest distance from the start node (UNT_MAX if path doesn't exist).
 //also updates every node's prev point to node which the shortest path to this node come from (NULL if path doesn't exist).
 //also update for every node, the node that leads to it.
-void dijkstra( pnode head) {
+void dijkstra(pnode head) {
     //finding the start vertex
     int start_num = 0;
     printf("# 1\n");
     scanf(" %d", &start_num);
     pnode start = NULL;
-    pnode * pstart = &start;
-    findNode(head,pstart,start_num);
+    pnode *pstart = &start;
+    findNode(head, pstart, start_num);
     //initialize all vertices
     pnode temp = head;
     while (temp != NULL) {
@@ -80,9 +80,9 @@ p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, 
     }
     // if all checked in
     if (i == size) {
-        p_str_int pStrInt = (p_str_int)(malloc(sizeof(str_int)));
+        p_str_int pStrInt = (p_str_int) (malloc(sizeof(str_int)));
         char c_num = current->node_num;
-        char str [3] = {c_num , ' ', '\0'};
+        char str[3] = {c_num, ' ', '\0'};
         pStrInt->string = "";
         strncat(pStrInt->string, str, 3);
         pStrInt->length = 0;
@@ -108,10 +108,9 @@ p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, 
                 if (ans == NULL) {
                     ans = temp;
                     edge_w = current_edge->weight;
-                }
-                else{
-                    if(temp != NULL && ans->length > temp->length)
-                    free(ans);
+                } else {
+                    if (temp != NULL && ans->length > temp->length)
+                        free(ans);
                     ans = temp;
                     edge_w = current_edge->weight;
                 }
@@ -125,7 +124,7 @@ p_str_int shortest_path(pnode *nodes, int size, pnode *passedby, pnode current, 
         return NULL;
     } else {
         char c_num = current->node_num;
-        char str [3] = {c_num , ' ', '\0'};
+        char str[3] = {c_num, ' ', '\0'};
         strncat(ans->string, str, 3);
         ans->length += edge_w;
         return ans;
